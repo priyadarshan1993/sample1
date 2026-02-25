@@ -1,0 +1,307 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MENU — Daily All Day Pune</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+body{margin:0;font-family:Poppins,sans-serif;background:#0e0e0f;color:#fff}
+
+header{
+ position:sticky;top:0;background:#0e0e0f;border-bottom:1px solid #222;
+ padding:10px;text-align:center;font-weight:600;font-size:14px
+}
+
+.topbar{
+ position:sticky;top:40px;background:#0e0e0f;
+ border-bottom:1px solid #1c1c1f;padding:6px
+}
+
+.search{
+ width:100%;padding:6px 8px;border-radius:6px;border:none;
+ background:#1c1c1f;color:#fff;font-size:12px;margin-bottom:6px
+}
+
+.filters{
+ display:flex;gap:6px;overflow-x:auto
+}
+
+.filters button{
+ background:#1c1c1f;border:none;color:#fff;
+ padding:4px 8px;border-radius:6px;font-size:11px;cursor:pointer
+}
+
+.filters button.active{background:#ffb703;color:#000}
+
+.nav{
+ position:sticky;top:92px;z-index:999;display:flex;gap:10px;
+ overflow-x:auto;padding:8px;border-bottom:1px solid #1c1c1f;background:#0e0e0f
+}
+
+.nav a{color:#ffb703;text-decoration:none;font-size:12px;white-space:nowrap}
+
+.section{padding:8px 12px}
+
+.category{
+ color:#ffb703;border-left:2px solid #ffb703;
+ padding-left:6px;margin:12px 0 6px;font-size:14px;
+ scroll-margin-top:130px;
+}
+
+.card{border-bottom:1px solid #1c1c1f}
+
+.item{
+ display:flex;align-items:center;justify-content:space-between;
+ padding:8px 2px;cursor:pointer
+}
+
+.left{display:flex;align-items:center;gap:8px}
+
+.name{font-size:13px}
+
+.price{color:#ffb703;font-weight:600;font-size:13px}
+
+.icon{width:14px;height:14px}
+
+.img{width:42px;height:42px;border-radius:6px;object-fit:cover}
+
+.badge{font-size:10px;padding:2px 4px;border-radius:4px;margin-left:3px;font-weight:600}
+.spicy{background:#ff4d4d;color:#fff}
+.best{background:#ffb703;color:#000}
+
+/* MODAL */
+#modal{
+ display:none;position:fixed;inset:0;background:#000c;
+ z-index:2000;align-items:center;justify-content:center
+}
+
+.modalBox{
+ background:#0e0e0f;border-radius:12px;
+ max-width:340px;width:92%;overflow:hidden
+}
+
+.modalBox img{
+ width:100%;height:220px;object-fit:cover
+}
+
+.modalContent{padding:12px}
+
+.modalName{font-weight:600;margin-bottom:4px}
+
+.modalType{font-size:12px;color:#9a9a9a}
+
+.modalPrice{color:#ffb703;font-weight:600;margin:6px 0}
+
+.modalDesc{font-size:12px;color:#ccc}
+
+.modalBtn{
+ margin-top:12px;width:100%;padding:8px;
+ border:none;border-radius:8px;
+ background:#ffb703;color:#000;font-weight:600
+}
+</style>
+</head>
+
+<body>
+
+<header>MENU — Daily All Day Pune</header>
+
+<div class="topbar">
+<input class="search" id="search" placeholder="Search menu...">
+<div class="filters">
+<button data-f="all" class="active">All</button>
+<button data-f="veg">Veg</button>
+<button data-f="nonveg">NonVeg</button>
+<button data-f="spicy">Spicy</button>
+<button data-f="best">Bestseller</button>
+</div>
+</div>
+
+<div class="nav" id="nav"></div>
+<div class="section" id="menu"></div>
+
+<!-- MODAL -->
+<div id="modal">
+  <div class="modalBox">
+    <img id="m_img">
+    <div class="modalContent">
+      <div id="m_name" class="modalName"></div>
+      <div id="m_type" class="modalType"></div>
+      <div id="m_price" class="modalPrice"></div>
+      <div id="m_desc" class="modalDesc"></div>
+      <button class="modalBtn" onclick="closeModal()">Close</button>
+    </div>
+  </div>
+</div>
+
+<script>
+let ALL_ROWS=[];
+
+function parseCSV(text){
+ return text.trim().split("\n").slice(1).map(r=>{
+   const cols = r.match(/(".*?"|[^",]+)(?=\s*,|\s*$)/g);
+   return cols.map(v=>v.replace(/^"|"$/g,""));
+ });
+}
+
+function openModal(data){
+ document.getElementById("modal").style.display="flex";
+ document.getElementById("m_img").src="images/"+data.img;
+ document.getElementById("m_name").textContent=data.name;
+ document.getElementById("m_price").textContent=data.price;
+ document.getElementById("m_desc").textContent=data.desc;
+
+ let typeTxt="";
+ if(data.type==="veg") typeTxt="🟢 Veg";
+ if(data.type==="nonveg") typeTxt="🔴 Non-Veg";
+
+ let tagTxt="";
+ if(data.tag.includes("spicy")) tagTxt+=" 🔥";
+ if(data.tag.includes("bestseller")) tagTxt+=" ⭐";
+
+ document.getElementById("m_type").textContent=typeTxt+tagTxt;
+}
+
+function closeModal(){
+ document.getElementById("modal").style.display="none";
+}
+
+function render(rows){
+ const menu=document.getElementById('menu');
+ const nav=document.getElementById('nav');
+ menu.innerHTML="";
+ nav.innerHTML="";
+
+ rows.forEach(cols=>{
+  const name=cols[0];
+  const price=parseFloat(cols[1]);
+  const desc=cols[2]||"";
+  const type=(cols[3]||"").toLowerCase();
+  const img=cols[4]||"";
+  const tag=(cols[5]||"").toLowerCase();
+
+  if(price===0){
+   const id=name.replace(/[^a-z0-9]/gi,'_');
+
+   const h=document.createElement('div');
+   h.className="category";
+   h.id=id;
+   h.textContent=name;
+   menu.appendChild(h);
+
+   const link=document.createElement('a');
+   link.href="#"+id;
+   link.textContent=name;
+   nav.appendChild(link);
+  }else{
+
+   const card=document.createElement('div');
+   card.className="card";
+
+   const item=document.createElement('div');
+   item.className="item";
+
+   item.onclick=()=>openModal({
+     name,price,desc,type,tag,img
+   });
+
+   const left=document.createElement('div');
+   left.className="left";
+
+   if(img){
+    const im=document.createElement('img');
+    im.src="images/"+img;
+    im.className="img";
+    left.appendChild(im);
+   }
+
+   if(type==="veg"||type==="nonveg"){
+    const ic=document.createElement('img');
+    ic.className="icon";
+    ic.src = type==="veg"
+      ? "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Veg_symbol.svg/32px-Veg_symbol.svg.png"
+      : "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/Non_veg_symbol.svg/32px-Non_veg_symbol.svg.png";
+    left.appendChild(ic);
+   }
+
+   const nm=document.createElement('div');
+   nm.className="name";
+   nm.textContent=name;
+
+   if(tag.includes("spicy")){
+    const b=document.createElement('span');
+    b.className="badge spicy";
+    b.textContent="🔥";
+    nm.appendChild(b);
+   }
+
+   if(tag.includes("bestseller")){
+    const b=document.createElement('span');
+    b.className="badge best";
+    b.textContent="⭐";
+    nm.appendChild(b);
+   }
+
+   left.appendChild(nm);
+
+   const pr=document.createElement('div');
+   pr.className="price";
+   pr.textContent=price;
+
+   item.appendChild(left);
+   item.appendChild(pr);
+   card.appendChild(item);
+   menu.appendChild(card);
+  }
+ });
+}
+
+function applyFilter(){
+ const f=document.querySelector('.filters button.active').dataset.f;
+ const q=document.getElementById('search').value.toLowerCase();
+
+ const filtered=ALL_ROWS.filter(r=>{
+  const price=parseFloat(r[1]);
+  if(price===0) return true;
+
+  const name=r[0].toLowerCase();
+  const type=(r[3]||"").toLowerCase();
+  const tag=(r[5]||"").toLowerCase();
+
+  if(q && !name.includes(q)) return false;
+  if(f==="veg" && type!=="veg") return false;
+  if(f==="nonveg" && type!=="nonveg") return false;
+  if(f==="spicy" && !tag.includes("spicy")) return false;
+  if(f==="best" && !tag.includes("bestseller")) return false;
+
+  return true;
+ });
+
+ render(filtered);
+}
+
+document.querySelectorAll('.filters button').forEach(b=>{
+ b.onclick=()=>{
+  document.querySelectorAll('.filters button').forEach(x=>x.classList.remove('active'));
+  b.classList.add('active');
+  applyFilter();
+ };
+});
+
+document.getElementById('search').oninput=applyFilter;
+
+// GOOGLE SHEET LIVE
+fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vTuqOGAiEQYlgwacbHKi_QRJeVRYGQqFl844FbKFZye0Dbyy2GdFN-LnpcWXqDKdDWLyGYKYA2JeI1n/pub?gid=1882359850&single=true&output=csv&t="+Date.now(),{cache:"no-store"})
+ .then(r=>r.text())
+ .then(t=>{
+   ALL_ROWS=parseCSV(t);
+   render(ALL_ROWS);
+ });
+</script>
+
+</body>
+</html>
