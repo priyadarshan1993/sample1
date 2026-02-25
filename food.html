@@ -182,7 +182,7 @@ function render(rows){
   const desc=cols[2]||"";
   const type=(cols[3]||"").toLowerCase().replace(/[\s-]/g,"");
   const img=cols[4]||"";
-  const tag=(cols[5]||"").toLowerCase();
+  const tag=(r[5]||"").toLowerCase().replace(/\s/g,"");
 
   if(price===0){
    const id=name.replace(/[^a-z0-9]/gi,'_');
@@ -307,4 +307,5 @@ fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vTuqOGAiEQYlgwacbHKi_QRJe
 </body>
 
 </html>
+
 
