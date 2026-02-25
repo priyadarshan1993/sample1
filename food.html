@@ -285,7 +285,7 @@ document.querySelectorAll('.filters button').forEach(b=>{
 
 document.getElementById('search').oninput=applyFilter;
 
-fetch("YOUR_GOOGLE_CSV_LINK&t="+Date.now(),{cache:"no-store"})
+fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vTuqOGAiEQYlgwacbHKi_QRJeVRYGQqFl844FbKFZye0Dbyy2GdFN-LnpcWXqDKdDWLyGYKYA2JeI1n/pub?gid=1882359850&single=true&output=csv&t="+Date.now(),{cache:"no-store"})
  .then(r=>r.text())
  .then(t=>{
    ALL_ROWS=parseCSV(t);
@@ -295,3 +295,4 @@ fetch("YOUR_GOOGLE_CSV_LINK&t="+Date.now(),{cache:"no-store"})
 
 </body>
 </html>
+
