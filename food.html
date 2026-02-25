@@ -180,7 +180,7 @@ function render(rows){
   const name=cols[0];
   const price=parseFloat(cols[1]);
   const desc=cols[2]||"";
-  const type=(cols[3]||"").toLowerCase();
+  const type=(cols[3]||"").toLowerCase().replace(/[\s-]/g,"");
   const img=cols[4]||"";
   const tag=(cols[5]||"").toLowerCase();
 
@@ -304,4 +304,5 @@ fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vTuqOGAiEQYlgwacbHKi_QRJe
 </script>
 
 </body>
+
 </html>
