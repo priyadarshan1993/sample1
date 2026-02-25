@@ -25,9 +25,7 @@ header{
  background:#1c1c1f;color:#fff;font-size:12px;margin-bottom:6px
 }
 
-.filters{
- display:flex;gap:6px;overflow-x:auto
-}
+.filters{display:flex;gap:6px;overflow-x:auto}
 
 .filters button{
  background:#1c1c1f;border:none;color:#fff;
@@ -37,9 +35,8 @@ header{
 .filters button.active{background:#ffb703;color:#000}
 
 .nav{
- position:sticky;top:92px;z-index:999;display:flex;gap:12px;
- overflow-x:auto;padding:8px;border-bottom:1px solid #1c1c1f;background:#0e0e0f;
- scroll-behavior:smooth
+ position:sticky;top:92px;z-index:999;display:flex;gap:10px;
+ overflow-x:auto;padding:8px;border-bottom:1px solid #1c1c1f;background:#0e0e0f
 }
 
 .nav a{color:#ffb703;text-decoration:none;font-size:12px;white-space:nowrap}
@@ -67,28 +64,13 @@ header{
 
 .icon{width:14px;height:14px}
 
-.img{
- width:46px;height:46px;border-radius:6px;
- object-fit:cover;position:relative
-}
-
-/* Bestseller ribbon */
-.ribbon{
- position:absolute;
- top:-4px;left:-4px;
- background:#ffb703;color:#000;
- font-size:9px;padding:2px 4px;
- border-radius:4px
-}
-
-/* spice meter */
-.spiceMeter{
- font-size:10px;margin-left:4px
-}
+.img{width:42px;height:42px;border-radius:6px;object-fit:cover}
 
 .badge{
- font-size:10px;padding:2px 4px;border-radius:4px;margin-left:3px;font-weight:600
+ font-size:10px;padding:2px 4px;border-radius:4px;
+ margin-left:3px;font-weight:600
 }
+
 .spicy{background:#ff4d4d;color:#fff}
 .best{background:#ffb703;color:#000}
 
@@ -160,6 +142,7 @@ header{
 <script>
 let ALL_ROWS=[];
 
+/* CSV PARSER */
 function parseCSV(text){
  return text.trim().split("\n").slice(1).map(r=>{
    const cols = r.match(/(".*?"|[^",]+)(?=\s*,|\s*$)/g);
@@ -167,13 +150,7 @@ function parseCSV(text){
  });
 }
 
-function normalizeTags(tag){
- return (tag||"")
-   .toLowerCase()
-   .replace(/\s/g,"")
-   .split("|");
-}
-
+/* MODAL */
 function openModal(data){
  document.getElementById("modal").style.display="flex";
  document.getElementById("m_img").src="images/"+data.img;
@@ -181,13 +158,15 @@ function openModal(data){
  document.getElementById("m_price").textContent=data.price;
  document.getElementById("m_desc").textContent=data.desc;
 
+ const tags = data.tag ? data.tag.split("|") : [];
+
  let typeTxt="";
  if(data.type==="veg") typeTxt="🟢 Veg";
  if(data.type==="nonveg") typeTxt="🔴 Non-Veg";
 
  let tagTxt="";
- if(data.tags.includes("spicy")) tagTxt+=" 🌶";
- if(data.tags.includes("bestseller")) tagTxt+=" ⭐";
+ if(tags.includes("spicy")) tagTxt+=" 🔥";
+ if(tags.includes("bestseller")) tagTxt+=" ⭐";
 
  document.getElementById("m_type").textContent=typeTxt+tagTxt;
 }
@@ -196,6 +175,7 @@ function closeModal(){
  document.getElementById("modal").style.display="none";
 }
 
+/* RENDER MENU */
 function render(rows){
  const menu=document.getElementById('menu');
  const nav=document.getElementById('nav');
@@ -208,8 +188,10 @@ function render(rows){
   const desc=cols[2]||"";
   const type=(cols[3]||"").toLowerCase().replace(/[\s-]/g,"");
   const img=cols[4]||"";
-  const tags=normalizeTags(cols[5]);
+  const tagRaw=(cols[5]||"").toLowerCase().replace(/\s/g,"");
+  const tags=tagRaw ? tagRaw.split("|") : [];
 
+  /* CATEGORY */
   if(price===0){
    const id=name.replace(/[^a-z0-9]/gi,'_');
 
@@ -223,75 +205,72 @@ function render(rows){
    link.href="#"+id;
    link.textContent=name;
    nav.appendChild(link);
-  }else{
-
-   const card=document.createElement('div');
-   card.className="card";
-
-   const item=document.createElement('div');
-   item.className="item";
-
-   item.onclick=()=>openModal({
-     name,price,desc,type,img,tags
-   });
-
-   const left=document.createElement('div');
-   left.className="left";
-
-   if(img){
-    const wrap=document.createElement('div');
-    wrap.style.position="relative";
-
-    const im=document.createElement('img');
-    im.src="images/"+img;
-    im.className="img";
-    im.loading="lazy";
-    wrap.appendChild(im);
-
-    if(tags.includes("bestseller")){
-      const rib=document.createElement('div');
-      rib.className="ribbon";
-      rib.textContent="BEST";
-      wrap.appendChild(rib);
-    }
-
-    left.appendChild(wrap);
-   }
-
-   if(type==="veg"||type==="nonveg"){
-    const ic=document.createElement('img');
-    ic.className="icon";
-    ic.src = type==="veg"
-      ? "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Veg_symbol.svg/32px-Veg_symbol.svg.png"
-      : "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/Non_veg_symbol.svg/32px-Non_veg_symbol.svg.png";
-    left.appendChild(ic);
-   }
-
-   const nm=document.createElement('div');
-   nm.className="name";
-   nm.textContent=name;
-
-   if(tags.includes("spicy")){
-    const sp=document.createElement('span');
-    sp.className="spiceMeter";
-    sp.textContent="🌶🌶";
-    nm.appendChild(sp);
-   }
-
-   left.appendChild(nm);
-
-   const pr=document.createElement('div');
-   pr.className="price";
-   pr.textContent=price;
-
-   item.appendChild(left);
-   item.appendChild(pr);
-   card.appendChild(item);
-   menu.appendChild(card);
+   return;
   }
+
+  /* ITEM */
+  const card=document.createElement('div');
+  card.className="card";
+
+  const item=document.createElement('div');
+  item.className="item";
+  item.onclick=()=>openModal({name,price,desc,type,tag:tagRaw,img});
+
+  const left=document.createElement('div');
+  left.className="left";
+
+  /* IMAGE */
+  if(img){
+   const im=document.createElement('img');
+   im.src="images/"+img;
+   im.loading="lazy";
+   im.className="img";
+   left.appendChild(im);
+  }
+
+  /* VEG ICON */
+  if(type==="veg"||type==="nonveg"){
+   const ic=document.createElement('img');
+   ic.className="icon";
+   ic.src = type==="veg"
+    ? "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Veg_symbol.svg/32px-Veg_symbol.svg.png"
+    : "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/Non_veg_symbol.svg/32px-Non_veg_symbol.svg.png";
+   left.appendChild(ic);
+  }
+
+  /* NAME + TAGS */
+  const nm=document.createElement('div');
+  nm.className="name";
+  nm.textContent=name;
+
+  if(tags.includes("spicy")){
+   const b=document.createElement('span');
+   b.className="badge spicy";
+   b.textContent="🔥";
+   nm.appendChild(b);
+  }
+
+  if(tags.includes("bestseller")){
+   const b=document.createElement('span');
+   b.className="badge best";
+   b.textContent="⭐";
+   nm.appendChild(b);
+  }
+
+  left.appendChild(nm);
+
+  const pr=document.createElement('div');
+  pr.className="price";
+  pr.textContent=price;
+
+  item.appendChild(left);
+  item.appendChild(pr);
+  card.appendChild(item);
+  menu.appendChild(card);
  });
 }
 
+/* FILTER */
 function applyFilter(){
  const f=document.querySelector('.filters button.active').dataset.f;
  const q=document.getElementById('search').value.toLowerCase();
@@ -300,9 +279,10 @@ function applyFilter(){
   const price=parseFloat(r[1]);
   if(price===0) return true;
 
-  const name=r[0].toLowerCase();
+  const name=(r[0]||"").toLowerCase();
   const type=(r[3]||"").toLowerCase().replace(/[\s-]/g,"");
-  const tags=normalizeTags(r[5]);
+  const tagRaw=(r[5]||"").toLowerCase().replace(/\s/g,"");
+  const tags=tagRaw ? tagRaw.split("|") : [];
 
   if(q && !name.includes(q)) return false;
   if(f==="veg" && type!=="veg") return false;
@@ -316,6 +296,7 @@ function applyFilter(){
  render(filtered);
 }
 
+/* EVENTS */
 document.querySelectorAll('.filters button').forEach(b=>{
  b.onclick=()=>{
   document.querySelectorAll('.filters button').forEach(x=>x.classList.remove('active'));
@@ -326,6 +307,7 @@ document.querySelectorAll('.filters button').forEach(b=>{
 
 document.getElementById('search').oninput=applyFilter;
 
+/* GOOGLE SHEET LIVE */
 fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vTuqOGAiEQYlgwacbHKi_QRJeVRYGQqFl844FbKFZye0Dbyy2GdFN-LnpcWXqDKdDWLyGYKYA2JeI1n/pub?gid=1882359850&single=true&output=csv&t="+Date.now(),{cache:"no-store"})
  .then(r=>r.text())
  .then(t=>{
@@ -336,4 +318,3 @@ fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vTuqOGAiEQYlgwacbHKi_QRJe
 
 </body>
 </html>
-
