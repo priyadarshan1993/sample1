@@ -1,108 +1,74 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MENU — Daily All Day Pune</title>
-
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 
 <style>
 body{margin:0;font-family:Poppins,sans-serif;background:#0e0e0f;color:#fff}
 
-header{
- position:sticky;top:0;background:#0e0e0f;border-bottom:1px solid #222;
- padding:10px;text-align:center;font-weight:600;font-size:14px
-}
+header{position:sticky;top:0;background:#0e0e0f;border-bottom:1px solid #222;padding:10px;text-align:center;font-weight:600;font-size:14px}
 
-.topbar{
- position:sticky;top:40px;background:#0e0e0f;
- border-bottom:1px solid #1c1c1f;padding:6px
-}
+.topbar{position:sticky;top:40px;background:#0e0e0f;border-bottom:1px solid #1c1c1f;padding:6px}
 
-.search{
- width:100%;padding:6px 8px;border-radius:6px;border:none;
- background:#1c1c1f;color:#fff;font-size:12px;margin-bottom:6px
-}
+.search{width:100%;padding:6px 8px;border-radius:6px;border:none;background:#1c1c1f;color:#fff;font-size:12px;margin-bottom:6px}
 
-.filters{
- display:flex;gap:6px;overflow-x:auto
-}
-
-.filters button{
- background:#1c1c1f;border:none;color:#fff;
- padding:4px 8px;border-radius:6px;font-size:11px;cursor:pointer
-}
-
+.filters{display:flex;gap:6px;overflow-x:auto}
+.filters button{background:#1c1c1f;border:none;color:#fff;padding:4px 8px;border-radius:6px;font-size:11px;cursor:pointer}
 .filters button.active{background:#ffb703;color:#000}
 
 .nav{
- position:sticky;top:92px;z-index:999;display:flex;gap:10px;
- overflow-x:auto;padding:8px;border-bottom:1px solid #1c1c1f;background:#0e0e0f
+ position:sticky;top:92px;z-index:999;display:flex;gap:12px;
+ overflow-x:auto;padding:8px;border-bottom:1px solid #1c1c1f;background:#0e0e0f;
+ scroll-behavior:smooth
 }
-
 .nav a{color:#ffb703;text-decoration:none;font-size:12px;white-space:nowrap}
+.nav a.active{border-bottom:2px solid #ffb703}
 
 .section{padding:8px 12px}
 
 .category{
  color:#ffb703;border-left:2px solid #ffb703;
- padding-left:6px;margin:12px 0 6px;font-size:14px;
+ padding-left:6px;margin:14px 0 8px;font-size:14px;
  scroll-margin-top:130px;
 }
 
 .card{border-bottom:1px solid #1c1c1f}
 
-.item{
- display:flex;align-items:center;justify-content:space-between;
- padding:8px 2px;cursor:pointer
+.item{display:flex;align-items:center;justify-content:space-between;padding:10px 2px;cursor:pointer}
+
+.left{display:flex;align-items:center;gap:10px}
+
+.imgWrap{position:relative}
+.img{width:44px;height:44px;border-radius:8px;object-fit:cover}
+
+.ribbon{
+ position:absolute;top:-4px;left:-4px;
+ background:#ffb703;color:#000;
+ font-size:9px;font-weight:700;
+ padding:2px 5px;border-radius:4px
 }
 
-.left{display:flex;align-items:center;gap:8px}
+.icon{width:14px;height:14px}
 
 .name{font-size:13px}
 
 .price{color:#ffb703;font-weight:600;font-size:13px}
 
-.icon{width:14px;height:14px}
-
-.img{width:42px;height:42px;border-radius:6px;object-fit:cover}
-
-.badge{font-size:10px;padding:2px 4px;border-radius:4px;margin-left:3px;font-weight:600}
-.spicy{background:#ff4d4d;color:#fff}
-.best{background:#ffb703;color:#000}
+.spice{font-size:11px;margin-left:4px;color:#ff4d4d}
 
 /* MODAL */
-#modal{
- display:none;position:fixed;inset:0;background:#000c;
- z-index:2000;align-items:center;justify-content:center
-}
-
-.modalBox{
- background:#0e0e0f;border-radius:12px;
- max-width:340px;width:92%;overflow:hidden
-}
-
-.modalBox img{
- width:100%;height:220px;object-fit:cover
-}
-
+#modal{display:none;position:fixed;inset:0;background:#000c;z-index:2000;align-items:center;justify-content:center}
+.modalBox{background:#0e0e0f;border-radius:12px;max-width:340px;width:92%;overflow:hidden}
+.modalBox img{width:100%;height:220px;object-fit:cover}
 .modalContent{padding:12px}
-
 .modalName{font-weight:600;margin-bottom:4px}
-
 .modalType{font-size:12px;color:#9a9a9a}
-
 .modalPrice{color:#ffb703;font-weight:600;margin:6px 0}
-
 .modalDesc{font-size:12px;color:#ccc}
-
-.modalBtn{
- margin-top:12px;width:100%;padding:8px;
- border:none;border-radius:8px;
- background:#ffb703;color:#000;font-weight:600
-}
+.modalBtn{margin-top:12px;width:100%;padding:8px;border:none;border-radius:8px;background:#ffb703;color:#000;font-weight:600}
 </style>
 </head>
 
@@ -148,6 +114,13 @@ function parseCSV(text){
  });
 }
 
+function spiceLevel(tag){
+ if(tag.includes("spicy3")) return "🌶🌶🌶";
+ if(tag.includes("spicy2")) return "🌶🌶";
+ if(tag.includes("spicy1")) return "🌶";
+ return "";
+}
+
 function openModal(data){
  document.getElementById("modal").style.display="flex";
  document.getElementById("m_img").src="images/"+data.img;
@@ -160,21 +133,18 @@ function openModal(data){
  if(data.type==="nonveg") typeTxt="🔴 Non-Veg";
 
  let tagTxt="";
- if(data.tag.includes("spicy")) tagTxt+=" 🔥";
  if(data.tag.includes("bestseller")) tagTxt+=" ⭐";
+ tagTxt+=" "+spiceLevel(data.tag);
 
  document.getElementById("m_type").textContent=typeTxt+tagTxt;
 }
 
-function closeModal(){
- document.getElementById("modal").style.display="none";
-}
+function closeModal(){document.getElementById("modal").style.display="none";}
 
 function render(rows){
  const menu=document.getElementById('menu');
  const nav=document.getElementById('nav');
- menu.innerHTML="";
- nav.innerHTML="";
+ menu.innerHTML=""; nav.innerHTML="";
 
  rows.forEach(cols=>{
   const name=cols[0];
@@ -182,7 +152,7 @@ function render(rows){
   const desc=cols[2]||"";
   const type=(cols[3]||"").toLowerCase().replace(/[\s-]/g,"");
   const img=cols[4]||"";
-  const tag=(r[5]||"").toLowerCase().replace(/\s/g,"");
+  const tag=(cols[5]||"").toLowerCase().replace(/\s/g,"");
 
   if(price===0){
    const id=name.replace(/[^a-z0-9]/gi,'_');
@@ -204,19 +174,28 @@ function render(rows){
 
    const item=document.createElement('div');
    item.className="item";
-
-   item.onclick=()=>openModal({
-     name,price,desc,type,tag,img
-   });
+   item.onclick=()=>openModal({name,price,desc,type,tag,img});
 
    const left=document.createElement('div');
    left.className="left";
 
    if(img){
+    const wrap=document.createElement('div');
+    wrap.className="imgWrap";
+
     const im=document.createElement('img');
-    im.src="images/"+img;
-    im.className="img";
-    left.appendChild(im);
+    im.dataset.src="images/"+img;
+    im.className="img lazy";
+
+    if(tag.includes("bestseller")){
+      const rib=document.createElement('div');
+      rib.className="ribbon";
+      rib.textContent="★";
+      wrap.appendChild(rib);
+    }
+
+    wrap.appendChild(im);
+    left.appendChild(wrap);
    }
 
    if(type==="veg"||type==="nonveg"){
@@ -232,18 +211,12 @@ function render(rows){
    nm.className="name";
    nm.textContent=name;
 
-   if(tag.includes("spicy")){
-    const b=document.createElement('span');
-    b.className="badge spicy";
-    b.textContent="🔥";
-    nm.appendChild(b);
-   }
-
-   if(tag.includes("bestseller")){
-    const b=document.createElement('span');
-    b.className="badge best";
-    b.textContent="⭐";
-    nm.appendChild(b);
+   const spice=spiceLevel(tag);
+   if(spice){
+     const s=document.createElement('span');
+     s.className="spice";
+     s.textContent=spice;
+     nm.appendChild(s);
    }
 
    left.appendChild(nm);
@@ -258,6 +231,23 @@ function render(rows){
    menu.appendChild(card);
   }
  });
+
+lazyLoad();
+}
+
+function lazyLoad(){
+ const imgs=document.querySelectorAll(".lazy");
+ const obs=new IntersectionObserver(entries=>{
+   entries.forEach(e=>{
+     if(e.isIntersecting){
+       const img=e.target;
+       img.src=img.dataset.src;
+       img.classList.remove("lazy");
+       obs.unobserve(img);
+     }
+   });
+ });
+ imgs.forEach(i=>obs.observe(i));
 }
 
 function applyFilter(){
@@ -271,13 +261,13 @@ function applyFilter(){
   const name=r[0].toLowerCase();
   const type=(r[3]||"").toLowerCase().replace(/[\s-]/g,"");
   const tag=(r[5]||"").toLowerCase().replace(/\s/g,"");
+  const tags=tag.split("|");
 
   if(q && !name.includes(q)) return false;
   if(f==="veg" && type!=="veg") return false;
   if(f==="nonveg" && type!=="nonveg") return false;
-const tags = tag.split("|");
-if(f==="spicy" && !tags.includes("spicy")) return false;
-if(f==="best" && !tags.includes("bestseller")) return false;
+  if(f==="spicy" && !tag.includes("spicy")) return false;
+  if(f==="best" && !tags.includes("bestseller")) return false;
 
   return true;
  });
@@ -295,8 +285,7 @@ document.querySelectorAll('.filters button').forEach(b=>{
 
 document.getElementById('search').oninput=applyFilter;
 
-// GOOGLE SHEET LIVE
-fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vTuqOGAiEQYlgwacbHKi_QRJeVRYGQqFl844FbKFZye0Dbyy2GdFN-LnpcWXqDKdDWLyGYKYA2JeI1n/pub?gid=1882359850&single=true&output=csv&t="+Date.now(),{cache:"no-store"})
+fetch("YOUR_GOOGLE_CSV_LINK&t="+Date.now(),{cache:"no-store"})
  .then(r=>r.text())
  .then(t=>{
    ALL_ROWS=parseCSV(t);
@@ -305,7 +294,4 @@ fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vTuqOGAiEQYlgwacbHKi_QRJe
 </script>
 
 </body>
-
 </html>
-
-
