@@ -269,14 +269,15 @@ function applyFilter(){
   if(price===0) return true;
 
   const name=r[0].toLowerCase();
-  const type=(r[3]||"").toLowerCase();
-  const tag=(r[5]||"").toLowerCase();
+  const type=(r[3]||"").toLowerCase().replace(/[\s-]/g,"");
+  const tag=(r[5]||"").toLowerCase().replace(/\s/g,"");
 
   if(q && !name.includes(q)) return false;
   if(f==="veg" && type!=="veg") return false;
   if(f==="nonveg" && type!=="nonveg") return false;
-  if(f==="spicy" && !tag.includes("spicy")) return false;
-  if(f==="best" && !tag.includes("bestseller")) return false;
+const tags = tag.split("|");
+if(f==="spicy" && !tags.includes("spicy")) return false;
+if(f==="best" && !tags.includes("bestseller")) return false;
 
   return true;
  });
@@ -306,3 +307,4 @@ fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vTuqOGAiEQYlgwacbHKi_QRJe
 </body>
 
 </html>
+
