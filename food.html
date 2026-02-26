@@ -5,253 +5,101 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MENU — Daily All Day Pune</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 
 <style>
-body{
- margin:0;
- font-family:Poppins,sans-serif;
- background:#0f1114;
- color:#fff;
-}
+body{margin:0;font-family:Poppins,sans-serif;background:#0e0e0f;color:#fff}
 
-/* HEADER */
 header{
- position:sticky;
- top:0;
- z-index:1000;
- background:#0f1114;
- padding:14px;
- text-align:center;
- font-weight:600;
- border-bottom:1px solid #1f2227;
+ position:sticky;top:0;background:#0e0e0f;border-bottom:1px solid #222;
+ padding:12px;text-align:center;font-weight:600;font-size:15px
 }
 
-/* SEARCH + FILTER */
 .topbar{
- position:sticky;
- top:56px;
- background:#0f1114;
- padding:10px;
- border-bottom:1px solid #1f2227;
+ position:sticky;top:48px;background:#0e0e0f;
+ border-bottom:1px solid #1c1c1f;padding:8px
 }
 
 .search{
- width:100%;
- padding:10px;
- border-radius:12px;
- border:none;
- background:#1a1d22;
- color:#fff;
- font-size:14px;
- margin-bottom:8px;
+ width:100%;padding:8px;border-radius:8px;border:none;
+ background:#1c1c1f;color:#fff;font-size:13px;margin-bottom:6px
 }
 
-.filters{
- display:flex;
- gap:8px;
- overflow-x:auto;
-}
-
+.filters{display:flex;gap:6px;overflow-x:auto}
 .filters button{
- background:#1a1d22;
- border:none;
- color:#fff;
- padding:6px 12px;
- border-radius:20px;
- font-size:12px;
- cursor:pointer;
- white-space:nowrap;
+ background:#1c1c1f;border:none;color:#fff;
+ padding:6px 12px;border-radius:20px;font-size:12px;cursor:pointer
 }
+.filters button.active{background:#ffb703;color:#000}
 
-.filters button.active{
- background:#ffb703;
- color:#000;
-}
-
-/* CATEGORY NAV */
 .nav{
- position:sticky;
- top:120px;
- background:#0f1114;
- display:flex;
- gap:14px;
- overflow-x:auto;
- padding:10px;
- border-bottom:1px solid #1f2227;
+ position:sticky;top:108px;z-index:999;
+ display:flex;gap:12px;overflow-x:auto;
+ padding:8px;border-bottom:1px solid #1c1c1f;background:#0e0e0f
 }
+.nav a{color:#ffb703;text-decoration:none;font-size:12px;white-space:nowrap}
 
-.nav a{
- color:#ffb703;
- text-decoration:none;
- font-size:13px;
- white-space:nowrap;
-}
+.section{padding:8px 12px}
 
-/* SECTION */
-.section{
- padding:12px;
-}
-
-/* CATEGORY TITLE */
 .category{
- margin:18px 0 10px;
- font-weight:600;
- font-size:16px;
- color:#ffb703;
- border-left:3px solid #ffb703;
- padding-left:8px;
- scroll-margin-top:160px;
+ color:#ffb703;border-left:2px solid #ffb703;
+ padding-left:8px;margin:14px 0 6px;font-size:15px;
+ scroll-margin-top:140px;
 }
 
-/* CARD */
-.card{
- background:#161a20;
- border-radius:14px;
- padding:10px;
- margin-bottom:10px;
- box-shadow:0 2px 6px rgba(0,0,0,0.4);
-}
+.card{border-bottom:1px solid #1c1c1f}
 
 .item{
- display:flex;
- align-items:center;
- justify-content:space-between;
- cursor:pointer;
+ display:flex;align-items:center;justify-content:space-between;
+ padding:10px 0;cursor:pointer
 }
 
 .left{
- display:flex;
- align-items:center;
- gap:10px;
-}
-
-/* IMAGE */
-.imgWrap{
- position:relative;
- width:56px;
- height:56px;
- border-radius:12px;
- overflow:hidden;
- flex-shrink:0;
+ display:flex;align-items:center;gap:10px;min-width:0;
 }
 
 .img{
- width:100%;
- height:100%;
- object-fit:cover;
+ width:48px;height:48px;border-radius:8px;object-fit:cover
 }
 
-/* BESTSELLER BADGE */
-.ribbon{
- position:absolute;
- top:4px;
- left:4px;
- background:#ffb703;
- color:#000;
- font-size:9px;
- padding:2px 5px;
- border-radius:4px;
- font-weight:600;
-}
-
-/* VEG ICON */
 .icon{
- width:16px;
- height:16px;
+ width:14px;height:14px
 }
 
-/* NAME */
+.badgeIcon{
+ width:16px;height:16px;margin-left:4px
+}
+
 .name{
- font-size:14px;
- font-weight:500;
+ font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis
 }
 
-/* SPICE DOTS */
-.spice{
- display:flex;
- gap:2px;
- margin-top:2px;
-}
-
-.spice span{
- width:6px;
- height:6px;
- border-radius:50%;
- background:#333;
-}
-
-.spice .on{
- background:#ff4d4d;
-}
-
-/* PRICE */
 .price{
- color:#ffb703;
- font-weight:600;
- font-size:15px;
+ color:#ffb703;font-weight:600;font-size:14px
 }
 
-/* MODAL */
 #modal{
- display:none;
- position:fixed;
- inset:0;
- background:#000c;
- z-index:2000;
- align-items:center;
- justify-content:center;
+ display:none;position:fixed;inset:0;background:#000c;
+ z-index:2000;align-items:center;justify-content:center
 }
 
 .modalBox{
- background:#161a20;
- border-radius:18px;
- width:92%;
- max-width:360px;
- overflow:hidden;
+ background:#0e0e0f;border-radius:14px;
+ max-width:360px;width:92%;overflow:hidden
 }
 
-.modalBox img{
- width:100%;
- height:230px;
- object-fit:cover;
-}
+.modalBox img{width:100%;height:230px;object-fit:cover}
 
-.modalContent{
- padding:14px;
-}
-
-.modalName{
- font-weight:600;
- font-size:16px;
- margin-bottom:4px;
-}
-
-.modalType{
- font-size:13px;
- color:#bbb;
-}
-
-.modalPrice{
- color:#ffb703;
- font-weight:600;
- margin:6px 0;
-}
-
-.modalDesc{
- font-size:13px;
- color:#ccc;
-}
+.modalContent{padding:14px}
+.modalName{font-weight:600;margin-bottom:4px}
+.modalType{font-size:12px;color:#aaa}
+.modalPrice{color:#ffb703;font-weight:600;margin:6px 0}
+.modalDesc{font-size:12px;color:#ccc}
 
 .modalBtn{
- margin-top:12px;
- width:100%;
- padding:10px;
- border:none;
- border-radius:10px;
- background:#ffb703;
- color:#000;
- font-weight:600;
+ margin-top:12px;width:100%;padding:9px;
+ border:none;border-radius:8px;
+ background:#ffb703;color:#000;font-weight:600
 }
 </style>
 </head>
@@ -268,43 +116,36 @@ header{
 <button data-f="nonveg">NonVeg</button>
 <button data-f="spicy">Spicy</button>
 <button data-f="best">Bestseller</button>
+<button data-f="chef">Chef</button>
 </div>
 </div>
 
 <div class="nav" id="nav"></div>
 <div class="section" id="menu"></div>
 
-<!-- MODAL -->
 <div id="modal">
- <div class="modalBox">
-  <img id="m_img">
-  <div class="modalContent">
-   <div id="m_name" class="modalName"></div>
-   <div id="m_type" class="modalType"></div>
-   <div id="m_price" class="modalPrice"></div>
-   <div id="m_desc" class="modalDesc"></div>
-   <button class="modalBtn" onclick="closeModal()">Close</button>
+  <div class="modalBox">
+    <img id="m_img">
+    <div class="modalContent">
+      <div id="m_name" class="modalName"></div>
+      <div id="m_type" class="modalType"></div>
+      <div id="m_price" class="modalPrice"></div>
+      <div id="m_desc" class="modalDesc"></div>
+      <button class="modalBtn" onclick="closeModal()">Close</button>
+    </div>
   </div>
- </div>
 </div>
 
 <script>
 let ALL_ROWS=[];
 
-/* NORMALIZE */
-function norm(v){
- return (v||"").toLowerCase().replace(/\s+/g,"").replace(/-/g,"");
-}
-
-/* CSV PARSER */
 function parseCSV(text){
  return text.trim().split("\n").slice(1).map(r=>{
-  const cols=r.match(/(".*?"|[^",]+)(?=\s*,|\s*$)/g) || [];
-  return cols.map(v=>v.replace(/^"|"$/g,"").trim());
+   const cols=r.match(/(".*?"|[^",]+)(?=\s*,|\s*$)/g)||[];
+   return cols.map(v=>v.replace(/^"|"$/g,"").trim());
  });
 }
 
-/* MODAL */
 function openModal(d){
  document.getElementById("modal").style.display="flex";
  document.getElementById("m_img").src="images/"+d.img;
@@ -315,8 +156,9 @@ function openModal(d){
  let t="";
  if(d.type==="veg") t="🟢 Veg";
  if(d.type==="nonveg") t="🔴 Non-Veg";
- if(d.tags.includes("spicy")) t+=" 🌶";
- if(d.tags.includes("bestseller")) t+=" ⭐";
+ if(d.spicy) t+=" 🌶";
+ if(d.best) t+=" ⭐";
+ if(d.chef) t+=" 👨‍🍳";
 
  document.getElementById("m_type").textContent=t;
 }
@@ -325,7 +167,6 @@ function closeModal(){
  document.getElementById("modal").style.display="none";
 }
 
-/* RENDER */
 function render(rows){
  const menu=document.getElementById("menu");
  const nav=document.getElementById("nav");
@@ -336,11 +177,12 @@ function render(rows){
   const name=cols[0];
   const price=parseFloat(cols[1]);
   const desc=cols[2]||"";
-  const type=norm(cols[3]);
+  const type=(cols[3]||"").toLowerCase();
   const img=cols[4]||"";
-  const tags=(cols[5]||"").toLowerCase().split("|").map(t=>norm(t));
+  const spicy=cols[5]=="1";
+  const best=cols[6]=="1";
+  const chef=cols[7]=="1";
 
-  /* CATEGORY */
   if(price===0){
    const id=name.replace(/[^a-z0-9]/gi,"_");
    const h=document.createElement("div");
@@ -361,52 +203,48 @@ function render(rows){
 
   const item=document.createElement("div");
   item.className="item";
-  item.onclick=()=>openModal({name,price,desc,type,img,tags});
+  item.onclick=()=>openModal({name,price,desc,type,img,spicy,best,chef});
 
   const left=document.createElement("div");
   left.className="left";
-
-  /* IMAGE */
-  const wrap=document.createElement("div");
-  wrap.className="imgWrap";
 
   if(img){
    const im=document.createElement("img");
    im.src="images/"+img;
    im.className="img";
-   im.loading="lazy";
-   wrap.appendChild(im);
+   left.appendChild(im);
   }
 
-  if(tags.includes("bestseller")){
-   const r=document.createElement("div");
-   r.className="ribbon";
-   r.textContent="★";
-   wrap.appendChild(r);
+  if(type==="veg"||type==="nonveg"){
+   const ic=document.createElement("img");
+   ic.className="icon";
+   ic.src= type==="veg" ? "images/veg.webp" : "images/nonveg.webp";
+   left.appendChild(ic);
   }
 
-  left.appendChild(wrap);
-
-/* ICON */
-if(type==="veg"||type==="nonveg"){
-  const ic=document.createElement("img");
-  ic.className="icon";
-  ic.src = type==="veg" 
-    ? "images/veg.webp" 
-    : "images/nonveg.webp";
-  left.appendChild(ic);
-}
-
-  /* NAME + SPICE */
   const nm=document.createElement("div");
   nm.className="name";
   nm.textContent=name;
 
-  if(tags.includes("spicy")){
-   const s=document.createElement("div");
-   s.className="spice";
-   s.innerHTML="<span class='on'></span><span class='on'></span><span></span>";
-   nm.appendChild(s);
+  if(spicy){
+   const ic=document.createElement("img");
+   ic.src="images/spicy.webp";
+   ic.className="badgeIcon";
+   nm.appendChild(ic);
+  }
+
+  if(best){
+   const ic=document.createElement("img");
+   ic.src="images/bestseller.webp";
+   ic.className="badgeIcon";
+   nm.appendChild(ic);
+  }
+
+  if(chef){
+   const ic=document.createElement("img");
+   ic.src="images/chef.webp";
+   ic.className="badgeIcon";
+   nm.appendChild(ic);
   }
 
   left.appendChild(nm);
@@ -422,7 +260,6 @@ if(type==="veg"||type==="nonveg"){
  });
 }
 
-/* FILTER */
 function applyFilter(){
  const f=document.querySelector(".filters button.active").dataset.f;
  const q=document.getElementById("search").value.toLowerCase();
@@ -432,14 +269,17 @@ function applyFilter(){
   if(price===0) return true;
 
   const name=(r[0]||"").toLowerCase();
-  const type=norm(r[3]);
-  const tags=(r[5]||"").toLowerCase().split("|").map(t=>norm(t));
+  const type=(r[3]||"").toLowerCase();
+  const spicy=r[5]=="1";
+  const best=r[6]=="1";
+  const chef=r[7]=="1";
 
   if(q && !name.includes(q)) return false;
   if(f==="veg" && type!=="veg") return false;
   if(f==="nonveg" && type!=="nonveg") return false;
-  if(f==="spicy" && !tags.includes("spicy")) return false;
-  if(f==="best" && !tags.includes("bestseller")) return false;
+  if(f==="spicy" && !spicy) return false;
+  if(f==="best" && !best) return false;
+  if(f==="chef" && !chef) return false;
 
   return true;
  });
@@ -447,7 +287,6 @@ function applyFilter(){
  render(filtered);
 }
 
-/* FILTER BUTTONS */
 document.querySelectorAll(".filters button").forEach(b=>{
  b.onclick=()=>{
   document.querySelectorAll(".filters button").forEach(x=>x.classList.remove("active"));
@@ -458,7 +297,6 @@ document.querySelectorAll(".filters button").forEach(b=>{
 
 document.getElementById("search").oninput=applyFilter;
 
-/* GOOGLE SHEET */
 fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vTuqOGAiEQYlgwacbHKi_QRJeVRYGQqFl844FbKFZye0Dbyy2GdFN-LnpcWXqDKdDWLyGYKYA2JeI1n/pub?gid=1882359850&single=true&output=csv&t="+Date.now())
  .then(r=>r.text())
  .then(t=>{
@@ -469,4 +307,3 @@ fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vTuqOGAiEQYlgwacbHKi_QRJe
 
 </body>
 </html>
-
