@@ -387,13 +387,15 @@ function render(rows){
 
   left.appendChild(wrap);
 
-  /* ICON */
-  if(type==="veg"||type==="nonveg"){
-   const ic=document.createElement("img");
-   ic.className="icon";
-   ic.src = type==="veg" ? "veg.webp" : "nonveg.webp";
-   left.appendChild(ic);
-  }
+/* ICON */
+if(type==="veg"||type==="nonveg"){
+  const ic=document.createElement("img");
+  ic.className="icon";
+  ic.src = type==="veg" 
+    ? "images/veg.webp" 
+    : "images/nonveg.webp";
+  left.appendChild(ic);
+}
 
   /* NAME + SPICE */
   const nm=document.createElement("div");
@@ -467,3 +469,4 @@ fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vTuqOGAiEQYlgwacbHKi_QRJe
 
 </body>
 </html>
+
