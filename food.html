@@ -5,107 +5,253 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MENU — Daily All Day Pune</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
 
 <style>
-body{margin:0;font-family:Poppins,sans-serif;background:#0e0e0f;color:#fff}
+body{
+ margin:0;
+ font-family:Poppins,sans-serif;
+ background:#0f1114;
+ color:#fff;
+}
 
 /* HEADER */
 header{
- position:sticky;top:0;background:#0e0e0f;border-bottom:1px solid #222;
- padding:12px;text-align:center;font-weight:600;font-size:15px
+ position:sticky;
+ top:0;
+ z-index:1000;
+ background:#0f1114;
+ padding:14px;
+ text-align:center;
+ font-weight:600;
+ border-bottom:1px solid #1f2227;
 }
 
 /* SEARCH + FILTER */
 .topbar{
- position:sticky;top:48px;background:#0e0e0f;
- border-bottom:1px solid #1c1c1f;padding:8px
+ position:sticky;
+ top:56px;
+ background:#0f1114;
+ padding:10px;
+ border-bottom:1px solid #1f2227;
 }
+
 .search{
- width:100%;padding:8px;border-radius:8px;border:none;
- background:#1c1c1f;color:#fff;font-size:13px;margin-bottom:6px
+ width:100%;
+ padding:10px;
+ border-radius:12px;
+ border:none;
+ background:#1a1d22;
+ color:#fff;
+ font-size:14px;
+ margin-bottom:8px;
 }
-.filters{display:flex;gap:6px;overflow-x:auto}
+
+.filters{
+ display:flex;
+ gap:8px;
+ overflow-x:auto;
+}
+
 .filters button{
- background:#1c1c1f;border:none;color:#fff;
- padding:5px 10px;border-radius:20px;font-size:11px;cursor:pointer
+ background:#1a1d22;
+ border:none;
+ color:#fff;
+ padding:6px 12px;
+ border-radius:20px;
+ font-size:12px;
+ cursor:pointer;
+ white-space:nowrap;
 }
-.filters button.active{background:#ffb703;color:#000}
+
+.filters button.active{
+ background:#ffb703;
+ color:#000;
+}
 
 /* CATEGORY NAV */
 .nav{
- position:sticky;top:110px;z-index:999;
- display:flex;gap:12px;overflow-x:auto;
- padding:8px;border-bottom:1px solid #1c1c1f;background:#0e0e0f
+ position:sticky;
+ top:120px;
+ background:#0f1114;
+ display:flex;
+ gap:14px;
+ overflow-x:auto;
+ padding:10px;
+ border-bottom:1px solid #1f2227;
 }
-.nav a{color:#ffb703;text-decoration:none;font-size:12px;white-space:nowrap}
 
-.section{padding:8px 12px}
+.nav a{
+ color:#ffb703;
+ text-decoration:none;
+ font-size:13px;
+ white-space:nowrap;
+}
 
-/* CATEGORY */
+/* SECTION */
+.section{
+ padding:12px;
+}
+
+/* CATEGORY TITLE */
 .category{
- color:#ffb703;border-left:2px solid #ffb703;
- padding-left:8px;margin:14px 0 6px;font-size:15px;
- scroll-margin-top:140px;
+ margin:18px 0 10px;
+ font-weight:600;
+ font-size:16px;
+ color:#ffb703;
+ border-left:3px solid #ffb703;
+ padding-left:8px;
+ scroll-margin-top:160px;
 }
 
 /* CARD */
-.card{border-bottom:1px solid #1c1c1f}
-.item{
- display:flex;align-items:center;justify-content:space-between;
- padding:10px 2px;cursor:pointer
+.card{
+ background:#161a20;
+ border-radius:14px;
+ padding:10px;
+ margin-bottom:10px;
+ box-shadow:0 2px 6px rgba(0,0,0,0.4);
 }
-.left{display:flex;align-items:center;gap:8px}
+
+.item{
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ cursor:pointer;
+}
+
+.left{
+ display:flex;
+ align-items:center;
+ gap:10px;
+}
 
 /* IMAGE */
-.imgWrap{position:relative}
+.imgWrap{
+ position:relative;
+ width:56px;
+ height:56px;
+ border-radius:12px;
+ overflow:hidden;
+ flex-shrink:0;
+}
+
 .img{
- width:50px;height:50px;border-radius:8px;object-fit:cover
+ width:100%;
+ height:100%;
+ object-fit:cover;
 }
 
-/* BESTSELLER */
+/* BESTSELLER BADGE */
 .ribbon{
- position:absolute;top:-4px;left:-4px;
- background:#ffb703;color:#000;
- font-size:9px;padding:2px 5px;border-radius:4px;
- font-weight:600
+ position:absolute;
+ top:4px;
+ left:4px;
+ background:#ffb703;
+ color:#000;
+ font-size:9px;
+ padding:2px 5px;
+ border-radius:4px;
+ font-weight:600;
 }
 
-/* SPICE */
-.spice{display:flex;gap:2px;margin-left:4px}
-.spice span{
- width:6px;height:10px;background:#333;border-radius:2px
-}
-.spice .on{background:#ff4d4d}
-
-/* ICON */
+/* VEG ICON */
 .icon{
- width:14px;height:14px;border-radius:2px;
- background:#111;padding:1px
+ width:16px;
+ height:16px;
 }
 
-.name{font-size:13px}
-.price{color:#ffb703;font-weight:600;font-size:14px}
+/* NAME */
+.name{
+ font-size:14px;
+ font-weight:500;
+}
+
+/* SPICE DOTS */
+.spice{
+ display:flex;
+ gap:2px;
+ margin-top:2px;
+}
+
+.spice span{
+ width:6px;
+ height:6px;
+ border-radius:50%;
+ background:#333;
+}
+
+.spice .on{
+ background:#ff4d4d;
+}
+
+/* PRICE */
+.price{
+ color:#ffb703;
+ font-weight:600;
+ font-size:15px;
+}
 
 /* MODAL */
 #modal{
- display:none;position:fixed;inset:0;background:#000c;
- z-index:2000;align-items:center;justify-content:center
+ display:none;
+ position:fixed;
+ inset:0;
+ background:#000c;
+ z-index:2000;
+ align-items:center;
+ justify-content:center;
 }
+
 .modalBox{
- background:#0e0e0f;border-radius:14px;
- max-width:360px;width:92%;overflow:hidden
+ background:#161a20;
+ border-radius:18px;
+ width:92%;
+ max-width:360px;
+ overflow:hidden;
 }
-.modalBox img{width:100%;height:230px;object-fit:cover}
-.modalContent{padding:14px}
-.modalName{font-weight:600;margin-bottom:4px}
-.modalType{font-size:12px;color:#aaa}
-.modalPrice{color:#ffb703;font-weight:600;margin:6px 0}
-.modalDesc{font-size:12px;color:#ccc}
+
+.modalBox img{
+ width:100%;
+ height:230px;
+ object-fit:cover;
+}
+
+.modalContent{
+ padding:14px;
+}
+
+.modalName{
+ font-weight:600;
+ font-size:16px;
+ margin-bottom:4px;
+}
+
+.modalType{
+ font-size:13px;
+ color:#bbb;
+}
+
+.modalPrice{
+ color:#ffb703;
+ font-weight:600;
+ margin:6px 0;
+}
+
+.modalDesc{
+ font-size:13px;
+ color:#ccc;
+}
+
 .modalBtn{
- margin-top:12px;width:100%;padding:9px;
- border:none;border-radius:8px;
- background:#ffb703;color:#000;font-weight:600
+ margin-top:12px;
+ width:100%;
+ padding:10px;
+ border:none;
+ border-radius:10px;
+ background:#ffb703;
+ color:#000;
+ font-weight:600;
 }
 </style>
 </head>
@@ -130,16 +276,16 @@ header{
 
 <!-- MODAL -->
 <div id="modal">
-  <div class="modalBox">
-    <img id="m_img">
-    <div class="modalContent">
-      <div id="m_name" class="modalName"></div>
-      <div id="m_type" class="modalType"></div>
-      <div id="m_price" class="modalPrice"></div>
-      <div id="m_desc" class="modalDesc"></div>
-      <button class="modalBtn" onclick="closeModal()">Close</button>
-    </div>
+ <div class="modalBox">
+  <img id="m_img">
+  <div class="modalContent">
+   <div id="m_name" class="modalName"></div>
+   <div id="m_type" class="modalType"></div>
+   <div id="m_price" class="modalPrice"></div>
+   <div id="m_desc" class="modalDesc"></div>
+   <button class="modalBtn" onclick="closeModal()">Close</button>
   </div>
+ </div>
 </div>
 
 <script>
@@ -147,17 +293,14 @@ let ALL_ROWS=[];
 
 /* NORMALIZE */
 function norm(v){
- return (v||"")
-   .toLowerCase()
-   .replace(/\s+/g,"")
-   .replace(/-/g,"");
+ return (v||"").toLowerCase().replace(/\s+/g,"").replace(/-/g,"");
 }
 
-/* CSV PARSE */
+/* CSV PARSER */
 function parseCSV(text){
  return text.trim().split("\n").slice(1).map(r=>{
-   const cols=r.match(/(".*?"|[^",]+)(?=\s*,|\s*$)/g) || [];
-   return cols.map(v=>v.replace(/^"|"$/g,"").trim());
+  const cols=r.match(/(".*?"|[^",]+)(?=\s*,|\s*$)/g) || [];
+  return cols.map(v=>v.replace(/^"|"$/g,"").trim());
  });
 }
 
@@ -177,13 +320,17 @@ function openModal(d){
 
  document.getElementById("m_type").textContent=t;
 }
-function closeModal(){document.getElementById("modal").style.display="none"}
+
+function closeModal(){
+ document.getElementById("modal").style.display="none";
+}
 
 /* RENDER */
 function render(rows){
  const menu=document.getElementById("menu");
  const nav=document.getElementById("nav");
- menu.innerHTML=""; nav.innerHTML="";
+ menu.innerHTML="";
+ nav.innerHTML="";
 
  rows.forEach(cols=>{
   const name=cols[0];
@@ -191,20 +338,20 @@ function render(rows){
   const desc=cols[2]||"";
   const type=norm(cols[3]);
   const img=cols[4]||"";
-  const tags=(cols[5]||"")
-      .toLowerCase()
-      .split("|")
-      .map(t=>norm(t.trim()));
+  const tags=(cols[5]||"").toLowerCase().split("|").map(t=>norm(t));
 
   /* CATEGORY */
   if(price===0){
    const id=name.replace(/[^a-z0-9]/gi,"_");
    const h=document.createElement("div");
-   h.className="category"; h.id=id; h.textContent=name;
+   h.className="category";
+   h.id=id;
+   h.textContent=name;
    menu.appendChild(h);
 
    const a=document.createElement("a");
-   a.href="#"+id; a.textContent=name;
+   a.href="#"+id;
+   a.textContent=name;
    nav.appendChild(a);
    return;
   }
@@ -226,12 +373,11 @@ function render(rows){
   if(img){
    const im=document.createElement("img");
    im.src="images/"+img;
-   im.loading="lazy";
    im.className="img";
+   im.loading="lazy";
    wrap.appendChild(im);
   }
 
-  /* BESTSELLER */
   if(tags.includes("bestseller")){
    const r=document.createElement("div");
    r.className="ribbon";
@@ -241,22 +387,19 @@ function render(rows){
 
   left.appendChild(wrap);
 
-  /* VEG/NONVEG ICON */
+  /* ICON */
   if(type==="veg"||type==="nonveg"){
    const ic=document.createElement("img");
    ic.className="icon";
-   ic.src = type==="veg"
-     ? "images/veg.webp"
-     : "images/nonveg.webp";
+   ic.src = type==="veg" ? "veg.webp" : "nonveg.webp";
    left.appendChild(ic);
   }
 
-  /* NAME */
+  /* NAME + SPICE */
   const nm=document.createElement("div");
   nm.className="name";
   nm.textContent=name;
 
-  /* SPICY */
   if(tags.includes("spicy")){
    const s=document.createElement("div");
    s.className="spice";
@@ -288,10 +431,7 @@ function applyFilter(){
 
   const name=(r[0]||"").toLowerCase();
   const type=norm(r[3]);
-  const tags=(r[5]||"")
-     .toLowerCase()
-     .split("|")
-     .map(t=>norm(t.trim()));
+  const tags=(r[5]||"").toLowerCase().split("|").map(t=>norm(t));
 
   if(q && !name.includes(q)) return false;
   if(f==="veg" && type!=="veg") return false;
@@ -305,7 +445,7 @@ function applyFilter(){
  render(filtered);
 }
 
-/* EVENTS */
+/* FILTER BUTTONS */
 document.querySelectorAll(".filters button").forEach(b=>{
  b.onclick=()=>{
   document.querySelectorAll(".filters button").forEach(x=>x.classList.remove("active"));
@@ -313,9 +453,10 @@ document.querySelectorAll(".filters button").forEach(b=>{
   applyFilter();
  };
 });
+
 document.getElementById("search").oninput=applyFilter;
 
-/* GOOGLE SHEET LIVE */
+/* GOOGLE SHEET */
 fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vTuqOGAiEQYlgwacbHKi_QRJeVRYGQqFl844FbKFZye0Dbyy2GdFN-LnpcWXqDKdDWLyGYKYA2JeI1n/pub?gid=1882359850&single=true&output=csv&t="+Date.now())
  .then(r=>r.text())
  .then(t=>{
