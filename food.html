@@ -142,43 +142,44 @@ header{
 <script>
 let ALL_ROWS=[];
 
-/* CSV PARSER */
+function clean(v){
+ return (v||"")
+   .toString()
+   .toLowerCase()
+   .replace(/\s+/g,"")
+   .replace(/-/g,"");
+}
+
 function parseCSV(text){
  return text.trim().split("\n").slice(1).map(r=>{
-   const cols = r.match(/(".*?"|[^",]+)(?=\s*,|\s*$)/g);
+   const cols=r.match(/(".*?"|[^",]+)(?=\s*,|\s*$)/g);
    return cols.map(v=>v.replace(/^"|"$/g,""));
  });
 }
 
-/* MODAL */
-function openModal(data){
+function openModal(d){
  document.getElementById("modal").style.display="flex";
- document.getElementById("m_img").src="images/"+data.img;
- document.getElementById("m_name").textContent=data.name;
- document.getElementById("m_price").textContent=data.price;
- document.getElementById("m_desc").textContent=data.desc;
+ document.getElementById("m_img").src="images/"+d.img;
+ document.getElementById("m_name").textContent=d.name;
+ document.getElementById("m_price").textContent=d.price;
+ document.getElementById("m_desc").textContent=d.desc;
 
- const tags = data.tag ? data.tag.split("|") : [];
+ let t="";
+ if(d.type==="veg") t="🟢 Veg";
+ if(d.type==="nonveg") t="🔴 Non-Veg";
+ if(d.tags.includes("spicy")) t+=" 🌶";
+ if(d.tags.includes("bestseller")) t+=" ⭐";
 
- let typeTxt="";
- if(data.type==="veg") typeTxt="🟢 Veg";
- if(data.type==="nonveg") typeTxt="🔴 Non-Veg";
-
- let tagTxt="";
- if(tags.includes("spicy")) tagTxt+=" 🔥";
- if(tags.includes("bestseller")) tagTxt+=" ⭐";
-
- document.getElementById("m_type").textContent=typeTxt+tagTxt;
+ document.getElementById("m_type").textContent=t;
 }
 
 function closeModal(){
  document.getElementById("modal").style.display="none";
 }
 
-/* RENDER MENU */
 function render(rows){
- const menu=document.getElementById('menu');
- const nav=document.getElementById('nav');
+ const menu=document.getElementById("menu");
+ const nav=document.getElementById("nav");
  menu.innerHTML="";
  nav.innerHTML="";
 
@@ -186,80 +187,83 @@ function render(rows){
   const name=cols[0];
   const price=parseFloat(cols[1]);
   const desc=cols[2]||"";
-  const type=(cols[3]||"").toLowerCase().replace(/[\s-]/g,"");
+  const type=clean(cols[3]);
   const img=cols[4]||"";
-  const tagRaw=(cols[5]||"").toLowerCase().replace(/\s/g,"");
-  const tags=tagRaw ? tagRaw.split("|") : [];
+  const tagRaw=clean(cols[5]);
+  const tags=tagRaw?tagRaw.split("|"):[];
 
-  /* CATEGORY */
   if(price===0){
-   const id=name.replace(/[^a-z0-9]/gi,'_');
+   const id=name.replace(/[^a-z0-9]/gi,"_");
 
-   const h=document.createElement('div');
+   const h=document.createElement("div");
    h.className="category";
    h.id=id;
    h.textContent=name;
    menu.appendChild(h);
 
-   const link=document.createElement('a');
-   link.href="#"+id;
-   link.textContent=name;
-   nav.appendChild(link);
+   const a=document.createElement("a");
+   a.href="#"+id;
+   a.textContent=name;
+   nav.appendChild(a);
    return;
   }
 
-  /* ITEM */
-  const card=document.createElement('div');
+  const card=document.createElement("div");
   card.className="card";
 
-  const item=document.createElement('div');
+  const item=document.createElement("div");
   item.className="item";
-  item.onclick=()=>openModal({name,price,desc,type,tag:tagRaw,img});
+  item.onclick=()=>openModal({name,price,desc,type,img,tags});
 
-  const left=document.createElement('div');
+  const left=document.createElement("div");
   left.className="left";
 
   /* IMAGE */
+  const wrap=document.createElement("div");
+  wrap.className="imgWrap";
+
   if(img){
-   const im=document.createElement('img');
+   const im=document.createElement("img");
    im.src="images/"+img;
    im.loading="lazy";
    im.className="img";
-   left.appendChild(im);
+   wrap.appendChild(im);
   }
+
+  if(tags.includes("bestseller")){
+   const r=document.createElement("div");
+   r.className="ribbon";
+   r.textContent="★";
+   wrap.appendChild(r);
+  }
+
+  left.appendChild(wrap);
 
   /* VEG ICON */
   if(type==="veg"||type==="nonveg"){
-   const ic=document.createElement('img');
+   const ic=document.createElement("img");
    ic.className="icon";
-   ic.src = type==="veg"
+   ic.src= type==="veg"
     ? "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Veg_symbol.svg/32px-Veg_symbol.svg.png"
     : "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/Non_veg_symbol.svg/32px-Non_veg_symbol.svg.png";
    left.appendChild(ic);
   }
 
-  /* NAME + TAGS */
-  const nm=document.createElement('div');
+  /* NAME */
+  const nm=document.createElement("div");
   nm.className="name";
   nm.textContent=name;
 
   if(tags.includes("spicy")){
-   const b=document.createElement('span');
-   b.className="badge spicy";
-   b.textContent="🔥";
-   nm.appendChild(b);
-  }
-
-  if(tags.includes("bestseller")){
-   const b=document.createElement('span');
-   b.className="badge best";
-   b.textContent="⭐";
-   nm.appendChild(b);
+   const s=document.createElement("div");
+   s.className="spice";
+   s.innerHTML="<span class='on'></span><span class='on'></span><span></span>";
+   nm.appendChild(s);
   }
 
   left.appendChild(nm);
 
-  const pr=document.createElement('div');
+  const pr=document.createElement("div");
   pr.className="price";
   pr.textContent=price;
 
@@ -270,19 +274,18 @@ function render(rows){
  });
 }
 
-/* FILTER */
 function applyFilter(){
- const f=document.querySelector('.filters button.active').dataset.f;
- const q=document.getElementById('search').value.toLowerCase();
+ const f=document.querySelector(".filters button.active").dataset.f;
+ const q=document.getElementById("search").value.toLowerCase();
 
  const filtered=ALL_ROWS.filter(r=>{
   const price=parseFloat(r[1]);
   if(price===0) return true;
 
   const name=(r[0]||"").toLowerCase();
-  const type=(r[3]||"").toLowerCase().replace(/[\s-]/g,"");
-  const tagRaw=(r[5]||"").toLowerCase().replace(/\s/g,"");
-  const tags=tagRaw ? tagRaw.split("|") : [];
+  const type=clean(r[3]);
+  const tagRaw=clean(r[5]);
+  const tags=tagRaw?tagRaw.split("|"):[];
 
   if(q && !name.includes(q)) return false;
   if(f==="veg" && type!=="veg") return false;
@@ -296,19 +299,18 @@ function applyFilter(){
  render(filtered);
 }
 
-/* EVENTS */
-document.querySelectorAll('.filters button').forEach(b=>{
+document.querySelectorAll(".filters button").forEach(b=>{
  b.onclick=()=>{
-  document.querySelectorAll('.filters button').forEach(x=>x.classList.remove('active'));
-  b.classList.add('active');
+  document.querySelectorAll(".filters button").forEach(x=>x.classList.remove("active"));
+  b.classList.add("active");
   applyFilter();
  };
 });
 
-document.getElementById('search').oninput=applyFilter;
+document.getElementById("search").oninput=applyFilter;
 
 /* GOOGLE SHEET LIVE */
-fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vTuqOGAiEQYlgwacbHKi_QRJeVRYGQqFl844FbKFZye0Dbyy2GdFN-LnpcWXqDKdDWLyGYKYA2JeI1n/pub?gid=1882359850&single=true&output=csv&t="+Date.now(),{cache:"no-store"})
+fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vTuqOGAiEQYlgwacbHKi_QRJeVRYGQqFl844FbKFZye0Dbyy2GdFN-LnpcWXqDKdDWLyGYKYA2JeI1n/pub?gid=1882359850&single=true&output=csv&t="+Date.now())
  .then(r=>r.text())
  .then(t=>{
    ALL_ROWS=parseCSV(t);
@@ -318,3 +320,4 @@ fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vTuqOGAiEQYlgwacbHKi_QRJe
 
 </body>
 </html>
+
